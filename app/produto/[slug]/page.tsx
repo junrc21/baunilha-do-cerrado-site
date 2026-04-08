@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Plus, Minus, MessageCircle, Star } from "lucide-react";
+import { ArrowLeft, Plus, Minus, Star } from "lucide-react";
 import { products, addons, cookieFlavors } from "@/data/site-data";
 import { ProductCard } from "@/components/product/product-card";
 import { SectionTitle } from "@/components/ui/section-title";
@@ -37,10 +37,6 @@ export default async function ProductPage({ params }: PageProps) {
     .slice(0, 3);
 
   const isLata = product.category === "presentear";
-
-  const whatsappMsg = encodeURIComponent(
-    `Olá! Gostaria de pedir: ${product.name} (${product.priceFormatted})`
-  );
 
   return (
     <div className="bg-[#f6efe8] min-h-screen">
@@ -133,7 +129,7 @@ export default async function ProductPage({ params }: PageProps) {
                 {product.description}
               </p>
 
-              <ProductPageClient product={product} isLata={isLata} whatsappMsg={whatsappMsg} />
+              <ProductPageClient product={product} isLata={isLata} />
 
               {/* Addons for latas */}
               {isLata && (
