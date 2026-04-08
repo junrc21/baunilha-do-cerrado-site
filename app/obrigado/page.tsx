@@ -16,11 +16,7 @@ interface OrderData {
   orderId: string;
   date: string;
   totalFormatted: string;
-  cart: {
-    product: { name: string; priceFormatted: string };
-    qty: number;
-    flavors: string[];
-  };
+  items: { name: string; priceFormatted: string; qty: number; flavors: string[] }[];
   addons: OrderAddon[];
   observation: string;
   customer: {
@@ -36,11 +32,14 @@ const DEMO_ORDER: OrderData = {
   orderId: "BC-X7F2A1",
   date: "08 de abril de 2026",
   totalFormatted: "R$ 172,00",
-  cart: {
-    product: { name: "Lata Vermelha — 6 Cookies", priceFormatted: "R$ 98,00" },
-    qty: 1,
-    flavors: ["Chocolate Belga", "Chocolate Belga", "Churros com Doce de Leite", "Churros com Doce de Leite", "Beijinho de Coco", "Beijinho de Coco"],
-  },
+  items: [
+    {
+      name: "Lata Vermelha — 6 Cookies",
+      priceFormatted: "R$ 98,00",
+      qty: 1,
+      flavors: ["Chocolate Belga", "Chocolate Belga", "Churros com Doce de Leite", "Churros com Doce de Leite", "Beijinho de Coco", "Beijinho de Coco"],
+    },
+  ],
   addons: [
     { name: "Teddy Bear", priceFormatted: "R$ 59,00" },
     { name: "Cartão Especial", priceFormatted: "R$ 15,00", message: "Com carinho para você, Laura. Assinado Paula" },
@@ -69,11 +68,13 @@ export default function ObrigadoPage() {
     return () => clearTimeout(t);
   }, []);
 
-  const flavorCounts =
-    order?.cart.flavors.reduce<Record<string, number>>((acc, f) => {
-      acc[f] = (acc[f] || 0) + 1;
-      return acc;
-    }, {}) ?? {};
+  const flavorSummary = (flavors: string[]) => {
+    const counts: Record<string, number> = {};
+    for (const f of flavors) counts[f] = (counts[f] || 0) + 1;
+    return Object.entries(counts)
+      .map(([f, c]) => `${c > 1 ? `${c}× ` : ""}${f}`)
+      .join(", ");
+  };
 
   return (
     <div className="min-h-screen bg-[#5E0B13] flex flex-col items-center justify-center px-5 py-20 overflow-hidden relative">
@@ -167,31 +168,29 @@ export default function ObrigadoPage() {
           </div>
 
           <div className="px-6 py-5 space-y-3">
-            {/* Product */}
-            {order && (
-              <div className="flex justify-between items-start gap-4">
+            {/* Items */}
+            {order?.items.map((item, i) => (
+              <div key={i} className="flex justify-between items-start gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 rounded-full bg-[#c89a57]/20 flex items-center justify-center shrink-0">
                     <span className="font-serif text-[10px] text-[#c89a57]">BC</span>
                   </div>
                   <div>
                     <p className="text-sm text-[#f1e7dd] font-medium">
-                      {order.cart.product.name} × {order.cart.qty}
+                      {item.name}{item.qty > 1 ? ` × ${item.qty}` : ""}
                     </p>
-                    {Object.entries(flavorCounts).length > 0 && (
+                    {item.flavors.length > 0 && (
                       <p className="text-[11px] text-[#e8d5b0]/50 mt-0.5">
-                        {Object.entries(flavorCounts)
-                          .map(([f, c]) => `${c > 1 ? `${c}× ` : ""}${f}`)
-                          .join(", ")}
+                        {flavorSummary(item.flavors)}
                       </p>
                     )}
                   </div>
                 </div>
                 <span className="font-serif text-sm text-[#c89a57] shrink-0">
-                  {order.cart.product.priceFormatted}
+                  {item.priceFormatted}
                 </span>
               </div>
-            )}
+            ))}
 
             {/* Addons */}
             {order?.addons.map((addon, i) => (

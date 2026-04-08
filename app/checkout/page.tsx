@@ -6,11 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, Gift, User, MapPin, ChevronDown } from "lucide-react";
 
 interface CheckoutData {
-  cart: {
-    product: { name: string; priceFormatted: string; price: number; image: string };
-    qty: number;
-    flavors: string[];
-  };
+  items: { name: string; priceFormatted: string; price: number; qty: number }[];
   addons: { name: string; priceFormatted: string }[];
   totalFormatted: string;
 }
@@ -402,14 +398,16 @@ export default function CheckoutPage() {
                 <div className="p-5 space-y-3">
                   {data ? (
                     <>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-[#7a4a47] leading-snug max-w-[60%]">
-                          {data.cart.product.name} × {data.cart.qty}
-                        </span>
-                        <span className="text-[#4b1f1d] font-medium">
-                          {data.cart.product.priceFormatted}
-                        </span>
-                      </div>
+                      {data.items.map((item, i) => (
+                        <div key={i} className="flex justify-between text-sm">
+                          <span className="text-[#7a4a47] leading-snug max-w-[60%]">
+                            {item.name}{item.qty > 1 ? ` × ${item.qty}` : ""}
+                          </span>
+                          <span className="text-[#4b1f1d] font-medium">
+                            {item.priceFormatted}
+                          </span>
+                        </div>
+                      ))}
                       {data.addons.map((a, i) => (
                         <div key={i} className="flex justify-between text-sm">
                           <span className="text-[#7a4a47]">{a.name}</span>
