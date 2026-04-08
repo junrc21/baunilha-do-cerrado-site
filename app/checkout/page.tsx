@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Gift, User, MapPin, ChevronDown } from "lucide-react";
+import { Check, Gift, User, MapPin, ChevronDown, Loader2 } from "lucide-react";
 
 interface CheckoutData {
   items: { name: string; priceFormatted: string; price: number; qty: number }[];
@@ -22,6 +22,22 @@ const inputClass =
 
 const labelClass =
   "block text-[11px] tracking-widest text-[#7a4a47] uppercase font-medium mb-2";
+
+// Brazilian phone formatter — (XX) XXXX-XXXX or (XX) XXXXX-XXXX
+function formatPhone(raw: string): string {
+  const d = raw.replace(/\D/g, "").slice(0, 11);
+  if (d.length === 0) return "";
+  if (d.length <= 2) return `(${d}`;
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
+// CEP formatter — XXXXX-XXX
+function formatCEP(raw: string): string {
+  const d = raw.replace(/\D/g, "").slice(0, 8);
+  return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
+}
 
 const STATES = [
   "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA",
@@ -46,8 +62,40 @@ export default function CheckoutPage() {
     } catch {}
   }, []);
 
+  const [cepLoading, setCepLoading] = useState(false);
+  const [cepError, setCepError] = useState("");
+
   const set = (k: string, v: string) =>
     setForm((prev) => ({ ...prev, [k]: v }));
+
+  const handlePhone = (field: string, raw: string) =>
+    set(field, formatPhone(raw));
+
+  const handleCEP = async (raw: string) => {
+    const formatted = formatCEP(raw);
+    set("cep", formatted);
+    const digits = raw.replace(/\D/g, "");
+    if (digits.length !== 8) { setCepError(""); return; }
+    setCepLoading(true);
+    setCepError("");
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      const json = await res.json();
+      if (json.erro) { setCepError("CEP não encontrado."); return; }
+      setForm((prev) => ({
+        ...prev,
+        cep: formatted,
+        street: json.logradouro || prev.street,
+        neighborhood: json.bairro || prev.neighborhood,
+        city: json.localidade || prev.city,
+        state: json.uf || prev.state,
+      }));
+    } catch {
+      setCepError("Não foi possível consultar o CEP.");
+    } finally {
+      setCepLoading(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -158,7 +206,7 @@ export default function CheckoutPage() {
                       required
                       placeholder="(61) 99999-9999"
                       value={form.whatsapp}
-                      onChange={(e) => set("whatsapp", e.target.value)}
+                      onChange={(e) => handlePhone("whatsapp", e.target.value)}
                       className={inputClass}
                     />
                   </div>
@@ -194,14 +242,26 @@ export default function CheckoutPage() {
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label className={labelClass}>CEP *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="00000-000"
-                      value={form.cep}
-                      onChange={(e) => set("cep", e.target.value)}
-                      className={inputClass}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        required
+                        placeholder="00000-000"
+                        value={form.cep}
+                        onChange={(e) => handleCEP(e.target.value)}
+                        className={`${inputClass} ${cepLoading ? "pr-10" : ""}`}
+                        maxLength={9}
+                      />
+                      {cepLoading && (
+                        <Loader2
+                          size={15}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#c89a57] animate-spin"
+                        />
+                      )}
+                    </div>
+                    {cepError && (
+                      <p className="text-xs text-red-500 mt-1.5">{cepError}</p>
+                    )}
                   </div>
                   <div>
                     <label className={labelClass}>Número *</label>
@@ -348,7 +408,7 @@ export default function CheckoutPage() {
                               type="tel"
                               placeholder="(61) 99999-9999"
                               value={form.recipientWhatsapp}
-                              onChange={(e) => set("recipientWhatsapp", e.target.value)}
+                              onChange={(e) => handlePhone("recipientWhatsapp", e.target.value)}
                               className={inputClass}
                             />
                           </div>
