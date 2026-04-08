@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Menu } from "lucide-react";
+import { MessageCircle, X, Menu, ShoppingBag } from "lucide-react";
 import { navigation } from "@/data/site-data";
 import { WHATSAPP_LINK } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/lib/cart-context";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const { itemCount, openCart } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -81,7 +83,21 @@ export function SiteHeader() {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex">
+            <div className="hidden lg:flex items-center gap-3">
+              {/* Cart icon */}
+              <button
+                onClick={openCart}
+                aria-label="Abrir carrinho"
+                className="relative w-10 h-10 flex items-center justify-center rounded-full text-[#e8d5b0]/70 hover:text-[#c89a57] hover:bg-white/10 transition-all duration-200"
+              >
+                <ShoppingBag size={20} strokeWidth={1.5} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-[#c89a57] text-[#4b1f1d] text-[9px] font-bold flex items-center justify-center px-1 leading-none">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"
@@ -89,12 +105,26 @@ export function SiteHeader() {
                 className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#c89a57] hover:bg-[#b88646] text-[#4b1f1d] text-[11px] tracking-widest uppercase font-medium transition-all duration-200 hover:shadow-gold min-h-[44px]"
               >
                 <MessageCircle size={13} />
-                <span>Pedir pelo WhatsApp</span>
+                <span>WhatsApp</span>
               </a>
             </div>
 
-            {/* Mobile: WhatsApp icon + hamburger */}
+            {/* Mobile: cart + WhatsApp icon + hamburger */}
             <div className="flex items-center gap-2 lg:hidden">
+              {/* Cart icon mobile */}
+              <button
+                onClick={openCart}
+                aria-label="Abrir carrinho"
+                className="relative w-10 h-10 flex items-center justify-center text-[#e8d5b0]/70 hover:text-[#c89a57] transition-colors"
+              >
+                <ShoppingBag size={20} strokeWidth={1.5} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] rounded-full bg-[#c89a57] text-[#4b1f1d] text-[9px] font-bold flex items-center justify-center px-1 leading-none">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"

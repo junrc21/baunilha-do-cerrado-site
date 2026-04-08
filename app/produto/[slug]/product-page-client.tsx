@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Plus, Minus, ShoppingBag } from "lucide-react";
+import { Plus, Minus, ShoppingBag, Check } from "lucide-react";
 import { cookieFlavors } from "@/data/site-data";
+import { useCart } from "@/lib/cart-context";
 
 interface Product {
   slug: string;
@@ -20,10 +20,11 @@ interface ProductPageClientProps {
 }
 
 export function ProductPageClient({ product, isLata }: ProductPageClientProps) {
-  const router = useRouter();
+  const { addItem, openCart } = useCart();
   const [qty, setQty] = useState(1);
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
   const [observation, setObservation] = useState("");
+  const [added, setAdded] = useState(false);
 
   const cookieCount = product.cookieCount || 0;
 
@@ -35,25 +36,21 @@ export function ProductPageClient({ product, isLata }: ProductPageClientProps) {
     }
   };
 
-  const goToCart = () => {
-    try {
-      localStorage.setItem(
-        "bc_cart",
-        JSON.stringify({
-          product: {
-            name: product.name,
-            priceFormatted: product.priceFormatted,
-            price: product.price ?? 0,
-            image: product.image ?? "/images/product-tin.png",
-            cookieCount: product.cookieCount,
-          },
-          qty,
-          flavors: selectedFlavors,
-          observation,
-        })
-      );
-    } catch {}
-    router.push("/carrinho");
+  const handleAddToCart = () => {
+    addItem({
+      slug: product.slug,
+      name: product.name,
+      price: product.price ?? 0,
+      priceFormatted: product.priceFormatted,
+      image: product.image ?? "/images/product-tin.png",
+      cookieCount: product.cookieCount,
+      qty,
+      flavors: selectedFlavors,
+      observation,
+    });
+    setAdded(true);
+    openCart();
+    setTimeout(() => setAdded(false), 2500);
   };
 
   return (
@@ -129,11 +126,25 @@ export function ProductPageClient({ product, isLata }: ProductPageClientProps) {
         </div>
 
         <button
-          onClick={goToCart}
-          className="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-full bg-[#6A1018] hover:bg-[#571018] text-[#f1e7dd] text-[11px] tracking-widest uppercase font-medium transition-all duration-200 hover:shadow-elegant-md"
+          onClick={handleAddToCart}
+          disabled={added}
+          className={`flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-full text-[11px] tracking-widest uppercase font-medium transition-all duration-300 ${
+            added
+              ? "bg-[#2d7a2d] text-white"
+              : "bg-[#6A1018] hover:bg-[#571018] text-[#f1e7dd] hover:shadow-elegant-md"
+          }`}
         >
-          <ShoppingBag size={15} />
-          Adicionar ao carrinho
+          {added ? (
+            <>
+              <Check size={15} />
+              Adicionado!
+            </>
+          ) : (
+            <>
+              <ShoppingBag size={15} />
+              Adicionar ao carrinho
+            </>
+          )}
         </button>
       </div>
     </div>
