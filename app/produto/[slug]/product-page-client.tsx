@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus, MessageCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Plus, Minus, MessageCircle, ShoppingBag } from "lucide-react";
 import { cookieFlavors } from "@/data/site-data";
 
 interface Product {
   slug: string;
   name: string;
   priceFormatted: string;
+  price?: number;
+  image?: string;
   cookieCount?: number;
 }
 
@@ -18,6 +21,7 @@ interface ProductPageClientProps {
 }
 
 export function ProductPageClient({ product, isLata, whatsappMsg }: ProductPageClientProps) {
+  const router = useRouter();
   const [qty, setQty] = useState(1);
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
   const [observation, setObservation] = useState("");
@@ -30,6 +34,27 @@ export function ProductPageClient({ product, isLata, whatsappMsg }: ProductPageC
     } else if (selectedFlavors.length < cookieCount) {
       setSelectedFlavors([...selectedFlavors, flavor]);
     }
+  };
+
+  const goToCart = () => {
+    try {
+      localStorage.setItem(
+        "bc_cart",
+        JSON.stringify({
+          product: {
+            name: product.name,
+            priceFormatted: product.priceFormatted,
+            price: product.price ?? 0,
+            image: product.image ?? "/images/product-tin.png",
+            cookieCount: product.cookieCount,
+          },
+          qty,
+          flavors: selectedFlavors,
+          observation,
+        })
+      );
+    } catch {}
+    router.push("/carrinho");
   };
 
   const buildWhatsAppMsg = () => {
@@ -113,16 +138,38 @@ export function ProductPageClient({ product, isLata, whatsappMsg }: ProductPageC
           </button>
         </div>
 
+        {isLata ? (
+          <button
+            onClick={goToCart}
+            className="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-full bg-[#6A1018] hover:bg-[#571018] text-[#f1e7dd] text-[11px] tracking-widest uppercase font-medium transition-all duration-200 hover:shadow-elegant-md"
+          >
+            <ShoppingBag size={15} />
+            Montar presente
+          </button>
+        ) : (
+          <a
+            href={buildWhatsAppMsg()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-full bg-[#c89a57] hover:bg-[#b88646] text-[#4b1f1d] text-[11px] tracking-widest uppercase font-medium transition-all duration-200 hover:shadow-gold"
+          >
+            <MessageCircle size={15} />
+            Pedir pelo WhatsApp
+          </a>
+        )}
+      </div>
+
+      {isLata && (
         <a
           href={buildWhatsAppMsg()}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-full bg-[#c89a57] hover:bg-[#b88646] text-[#4b1f1d] text-[11px] tracking-widest uppercase font-medium transition-all duration-200 hover:shadow-gold"
+          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-full border border-[#c89a57]/40 text-[#7a4a47] hover:border-[#c89a57] hover:text-[#6A1018] text-[11px] tracking-widest uppercase font-medium transition-all duration-200"
         >
-          <MessageCircle size={15} />
-          Pedir pelo WhatsApp
+          <MessageCircle size={13} />
+          Ou pedir direto pelo WhatsApp
         </a>
-      </div>
+      )}
     </div>
   );
 }
