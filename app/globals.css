@@ -1,26 +1,89 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 33 33% 96%;
+  --foreground: 5 46% 21%;
+  --card: 33 33% 97%;
+  --card-foreground: 5 46% 21%;
+  --popover: 33 33% 97%;
+  --popover-foreground: 5 46% 21%;
+  --primary: 352 75% 24%;
+  --primary-foreground: 33 33% 96%;
+  --secondary: 36 40% 75%;
+  --secondary-foreground: 5 46% 21%;
+  --muted: 33 25% 90%;
+  --muted-foreground: 5 30% 45%;
+  --accent: 36 50% 55%;
+  --accent-foreground: 5 46% 21%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 33 33% 96%;
+  --border: 33 25% 85%;
+  --input: 33 25% 85%;
+  --ring: 352 75% 24%;
+  --radius: 0.75rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f6efe8;
+  color: #4b1f1d;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1e7dd;
+}
+::-webkit-scrollbar-thumb {
+  background: #c89a57;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b88646;
+}
+
+::selection {
+  background-color: rgba(200, 154, 87, 0.25);
+  color: #4b1f1d;
+}
+
+:focus-visible {
+  outline: 2px solid #c89a57;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #d4aa6a 0%, #c89a57 40%, #b88646 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-divider {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c89a57, transparent);
+  margin: 0 auto;
 }
