@@ -422,7 +422,7 @@ export default function ObrigadoPage() {
           className="mt-12 flex items-center gap-3"
         >
           <div className="w-8 h-px bg-[#c89a57]/30" />
-          <p className="text-[9px] tracking-[0.4em] text-[#c89a57]/40 uppercase">Feito com carinho · Brasília, DF</p>
+          <p className="text-[9px] tracking-[0.4em] text-[#c89a57]/40 uppercase">Feito com carinho · Goiânia, GO</p>
           <div className="w-8 h-px bg-[#c89a57]/30" />
         </motion.div>
       </div>

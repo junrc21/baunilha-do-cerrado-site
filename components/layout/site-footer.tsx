@@ -132,9 +132,9 @@ export function SiteFooter() {
       <div className="border-t border-[#c89a57]/10">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-[#e8d5b0]/40 text-xs text-center sm:text-left">
-            © 2025 Baunilha do Cerrado Confeitaria. Todos os direitos reservados.
+            © 2026 Baunilha do Cerrado Confeitaria. Todos os direitos reservados.
           </p>
-          <p className="text-[#e8d5b0]/40 text-xs">Feito com carinho · Brasília, DF</p>
+          <p className="text-[#e8d5b0]/40 text-xs">Feito com carinho · Goiânia, GO</p>
         </div>
       </div>
     </footer>

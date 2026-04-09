@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 const mockOrder = {
-  number: "#BC-2025-0042",
-  date: "08 de abril de 2025",
+  number: "#BC-2026-0042",
+  date: "08 de abril de 2026",
   items: [
     { name: "Lata Vermelha — 6 Cookies", desc: "Chocolate Belga, Churros, Beijinho de Coco, Red Velvet, Clássico ×2", price: "R$ 98,00" },
     { name: "Teddy Bear", desc: "Complemento do presente", price: "R$ 59,00" },

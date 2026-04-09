@@ -199,7 +199,7 @@ export function OrderConfirmationEmail({
                         </p>
                         <div style={{ width: "32px", height: "1px", backgroundColor: "rgba(200,154,87,0.3)", margin: "0 auto 16px" }} />
                         <p style={{ color: "rgba(232,213,176,0.35)", fontSize: "11px", margin: 0, fontFamily: "Arial, sans-serif" }}>
-                          © 2025 Baunilha do Cerrado. Todos os direitos reservados.
+                          © 2026 Baunilha do Cerrado. Todos os direitos reservados.
                         </p>
                       </td>
                     </tr>

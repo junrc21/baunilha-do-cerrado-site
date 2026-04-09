@@ -34,14 +34,14 @@ export const metadata: Metadata = {
     template: "%s | Baunilha do Cerrado",
   },
   description:
-    "Cookies, bolos, cheesecakes e latas presenteáveis com apresentação impecável e sabor artesanal. Confeitaria premium em Brasília.",
+    "Cookies, bolos, cheesecakes e latas presenteáveis com apresentação impecável e sabor artesanal. Confeitaria premium em Goiânia.",
   keywords: [
     "confeitaria",
     "cookies artesanais",
     "bolos",
     "cheesecake",
     "presentes",
-    "Brasília",
+    "Goiânia",
     "latas presenteáveis",
   ],
   openGraph: {

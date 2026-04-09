@@ -42,7 +42,7 @@ export default function EmailPreviewPage() {
           {/* Email body */}
           <OrderConfirmationEmail
             customerName="Laura"
-            orderNumber="#BC-2025-0042"
+            orderNumber="#BC-2026-0042"
             items={[
               {
                 name: "Lata Vermelha — 6 cookies sortidos",

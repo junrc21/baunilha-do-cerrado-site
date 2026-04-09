@@ -50,7 +50,7 @@ export default function ContatoPage() {
               {
                 icon: MapPin,
                 title: "Localização",
-                text: "Brasília, DF",
+                text: "Goiânia, GO",
                 sub: "Retirada disponível",
               },
             ].map((item) => {

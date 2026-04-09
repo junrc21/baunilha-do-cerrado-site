@@ -311,7 +311,7 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       required
-                      placeholder="Brasília"
+                      placeholder="Goiânia"
                       value={form.city}
                       onChange={(e) => set("city", e.target.value)}
                       className={inputClass}

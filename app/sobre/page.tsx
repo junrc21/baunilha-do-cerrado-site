@@ -7,7 +7,7 @@ import { Wheat, HandHeart, Sparkles, Heart } from "lucide-react";
 export const metadata: Metadata = {
   title: "Sobre nós",
   description:
-    "Conheça a história da Baunilha do Cerrado — confeitaria artesanal premium em Brasília.",
+    "Conheça a história da Baunilha do Cerrado — confeitaria artesanal premium em Goiânia.",
 };
 
 const pillars = [
@@ -42,59 +42,55 @@ export default function SobrePage() {
     <>
       <PageHero
         eyebrow="Nossa história"
-        title="Delicadeza, cuidado e sabor em cada criação"
-        subtitle="A Baunilha do Cerrado nasceu para transformar doces em experiências marcantes, com apresentação impecável, ingredientes selecionados e um olhar especial para os detalhes."
+        title="Superação, reconstrução e amor em cada doce"
+        subtitle="A Baunilha do Cerrado nasceu de um recomeço. Uma história de coragem, resiliência e a descoberta de que é possível transformar dor em propósito."
       />
 
       {/* História */}
       <section className="py-24 px-6 bg-[#f6efe8]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <SectionTitle
-                eyebrow="Quem somos"
-                title="Uma confeitaria nascida do amor pela arte doce"
-                subtitle="A Baunilha do Cerrado nasceu em Brasília com um propósito claro: criar doces que sejam, ao mesmo tempo, experiências sensoriais completas e gestos de afeto."
-              />
-              <div className="mt-8 space-y-5">
-                <p className="text-[#7a4a47] leading-relaxed">
-                  Nossa história começa com a paixão pela confeitaria artesanal e o desejo de oferecer produtos que vão além do sabor — que encantam pela apresentação, pela qualidade dos ingredientes e pelo cuidado em cada detalhe.
-                </p>
-                <p className="text-[#7a4a47] leading-relaxed">
-                  Em Brasília, criamos uma confeitaria que traduz sofisticação acessível: produtos premium, feitos à mão, para quem valoriza o que é genuinamente bem-feito.
-                </p>
-                <p className="text-[#7a4a47] leading-relaxed">
-                  Cada cookie, cada bolo, cada lata presenteável é criada com a mesma atenção e carinho que você merece receber.
-                </p>
-              </div>
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-14 text-center">
+            <SectionTitle
+              eyebrow="Quem somos"
+              title="História da Baunilha do Cerrado"
+              center
+            />
+          </div>
+          <div className="space-y-7">
+            <p className="text-[#7a4a47] leading-relaxed text-base md:text-lg">
+              A Baunilha do Cerrado nasceu em um período marcado por dor, mudanças e recomeços. A saída de Cuiabá aconteceu após a vivência de um momento familiar extremamente difícil, acompanhando de perto a fase final de uma doença. A experiência deixou marcas emocionais profundas e despertou a necessidade de reconstruir a própria vida.
+            </p>
+            <p className="text-[#7a4a47] leading-relaxed text-base md:text-lg">
+              Nesse contexto, a confeitaria surgiu como um sonho antigo que passou a ganhar forma. Trabalhar com comida se tornou mais do que uma atividade profissional: virou caminho de cura, propósito e reencontro com a própria identidade. Esse processo veio acompanhado de terapia, autoconhecimento e retomada daquilo que fazia sentido de verdade, representando uma grande virada de chave.
+            </p>
+            <p className="text-[#7a4a47] leading-relaxed text-base md:text-lg">
+              O início foi simples. Em plena pandemia, com poucos recursos, a produção começou com utensílios básicos e ingredientes comprados aos poucos. Os primeiros bolos foram feitos de forma modesta, mas tiveram rápida aceitação. As vendas cresceram, surgiram os bolos no pote, depois os bolos de aniversário, e o delivery ampliou ainda mais o alcance. A resposta positiva dos clientes confirmou que havia ali algo especial.
+            </p>
+            <p className="text-[#7a4a47] leading-relaxed text-base md:text-lg">
+              A trajetória também enfrentou novas perdas familiares, encerrando ciclos importantes e trazendo novos desafios emocionais. Mesmo assim, a caminhada seguiu, fortalecida pelo aprendizado da resiliência e pela certeza de que era possível recomeçar.
+            </p>
+
+            {/* Pull quote */}
+            <div className="border-l-2 border-[#c89a57] pl-6 py-2 my-8">
+              <p className="font-serif text-xl md:text-2xl text-[#4b1f1d] italic leading-snug">
+                "Hoje, a Baunilha do Cerrado é mais do que uma confeitaria. Representa superação, reconstrução e persistência."
+              </p>
             </div>
 
-            <div className="relative pb-6">
-              {/* Visual decorativo */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                {["Cookies Artesanais", "Bolos Premium", "Cheesecakes", "Latas Presenteáveis"].map((label) => (
-                  <div
-                    key={label}
-                    className="aspect-square rounded-[16px] sm:rounded-[20px] bg-gradient-to-br from-[#f1e7dd] to-[#eadbcd] border border-[#d9c7b4]/60 flex items-center justify-center shadow-elegant"
-                  >
-                    <div className="text-center p-3 sm:p-4">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#c89a57]/20 flex items-center justify-center mx-auto mb-2">
-                        <span className="font-serif text-base sm:text-lg text-[#c89a57] font-semibold">BC</span>
-                      </div>
-                      <p className="text-[10px] sm:text-xs text-[#7a4a47] font-medium leading-tight">{label}</p>
-                    </div>
-                  </div>
+            <p className="text-[#7a4a47] leading-relaxed text-base md:text-lg">
+              Cada doce carrega uma história de recomeços e a prova de que é possível transformar dor em força e trabalho em propósito.
+            </p>
+          </div>
+
+          {/* Stat badge */}
+          <div className="mt-12 flex justify-center">
+            <div className="inline-flex items-center gap-3 bg-white rounded-[14px] px-5 py-3 shadow-elegant border border-[#d9c7b4]/50">
+              <div className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span key={i} className="text-[#c89a57] text-xs">★</span>
                 ))}
               </div>
-              {/* Inline stat badge (not floating to avoid overflow on mobile) */}
-              <div className="mt-4 inline-flex items-center gap-3 bg-white rounded-[14px] px-4 py-3 shadow-elegant border border-[#d9c7b4]/50">
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <span key={i} className="text-[#c89a57] text-xs">★</span>
-                  ))}
-                </div>
-                <p className="text-[11px] text-[#7a4a47]">+500 pedidos com amor</p>
-              </div>
+              <p className="text-[11px] text-[#7a4a47]">+500 pedidos com amor</p>
             </div>
           </div>
         </div>
